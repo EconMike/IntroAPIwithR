@@ -16,3 +16,5 @@ Ticket bookings: What are the two best seats available for Miss Saigon next week
 
 Tunneling (Others)- Tunneling transmits private network data and protocol information through public network by encapsulating the data. 
 HTTP tunneling is using a protocol of higher level (HTTP) to transport a lower level protocol (TCP).
+
+http://algermissen.io/classification_of_http_apis.html
