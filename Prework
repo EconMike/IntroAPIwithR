@@ -1,0 +1,6 @@
+library(blsAPI)
+library(rjson)
+
+
+layoffs_json <- blsAPI('MLUMS00NN0001003') 
+layoffs_df <- blsAPI('MLUMS00NN0001003', return_data_frame = TRUE)
