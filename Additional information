@@ -1,0 +1,18 @@
+REST
+Simple object access protocol (SOAP)
+Others (Tunneling style)
+
+REST-Representational state transfer-a software architectural style which uses a subset of HTTP (Wiki). It is commonly used to create interactive applications that use Web services. 
+A Web service that follows these guidelines is called RESTful. Typically provides JavaScript Object Notation (JSON) encoded data in its responses.
+
+Simple object access protocol (SOAP)- lightweight, XML-based protocol for exchanging information in a decentralized, distributed environment.
+By combining SOAP-based requests and responses with a transport protocol, such as HTTP, the Internet becomes a medium for applications to publish database-backed Web services, such as:
+
+Restaurant listings: Which sushi bars are within five blocks of the Geary Theatre?
+Car dealer inquiries: What California dealers have a denim blue Audi TT coupe in stock?
+Financial information requests: What stocks in my portfolio are below their 50-day average?
+Ticket bookings: What are the two best seats available for Miss Saigon next week?
+(https://docs.oracle.com/cd/A97335_02/integrate.102/a90297/overview.htm )
+
+Tunneling (Others)- Tunneling transmits private network data and protocol information through public network by encapsulating the data. 
+HTTP tunneling is using a protocol of higher level (HTTP) to transport a lower level protocol (TCP).
