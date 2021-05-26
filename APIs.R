@@ -1,23 +1,16 @@
 #Thank you Barret Schloerke from RStudio
 
+#set working directory
+#setwd("F:/API's")
+
 #install.packages("plumber")
+
   library(plumber)
 
-#setwd("F:/API's")
  
-#function(text = "") {
-#  list( 
-#    message_echo = paste("The text is:", text)
-#  )
-#}
-#plumber::plumb("plumber.R")$run(port = 5762)
-
-#widelong_api <- plumber::plumb("plumber.R")
-#widelong_api$run(host = '127.0.0.1', port = 8000)
-
+#load some data- below is from mtcars
 data<-read.csv("cars.csv")
 
-#write.csv(mtcars,"cars.csv")
 
 #* Return the data
 #* @serializer csv
