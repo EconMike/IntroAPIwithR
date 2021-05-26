@@ -1,0 +1,295 @@
+---
+title: "Intro to API with R"
+author: "Mike J"
+date: "5/27/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduciton to API's with R
+
+Set of programming instructions for accessing information or services from a Web-based software application. 
+
+Companies releases its API to the public so that other software developers can design products that can access its services.
+
+
+<br>
+
+Good website that shows information on available APIs and 
+how to access them.
+
+https://www.springboard.com/library/data-science/top-apis-for-data-scientists/
+
+<br>
+<br>
+##How can API help data analysts
+Can periodically analyze data without time consuming process of preparing new data tables manually.
+Reduce human errors when constructing these tables.
+
+<br>
+<br>
+<br>
+
+##API KEY
+Used to identify the calling program, its developer, or its user to the Web site.
+
+Example: 842A3028-DFC5-43A4-9E38-94173687B03D
+
+<br>
+<br>
+<br>
+
+##httr and jsonlite packages
+
+https://www.rdocumentation.org/packages/httr/versions/1.4.2/topics/GET
+
+https://www.rdocumentation.org/packages/jsonlite/versions/1.7.2/topics/toJSON,%20fromJSON
+
+<br>
+<br>
+```{r demo, echo=FALSE}
+#install.packages(c("httr", "jsonlite"))
+
+library(httr)
+library(jsonlite)
+library(dplyr)
+
+#EIA data
+# ba8c82f8966f3d937e106d98178b11a8
+
+res <- GET('http://api.eia.gov/series/?series_id=ELEC.GEN.ALL-AK-99.A&api_key=ba8c82f8966f3d937e106d98178b11a8&out=json')
+
+#check the status of the API request
+httr::http_status(res)
+
+
+```
+```{r democontent, echo=FALSE}
+
+httr::content(res)
+vw<-rawToChar(res$content)
+head(vw)
+
+```
+
+
+```{r demodata, echo=FALSE}
+
+
+json_data <- fromJSON(rawToChar(res$content))
+data <- data.frame(json_data$series$data)
+data %>% rename(YEAR=X1, VALUE=X2)
+
+```
+
+```{r census, echo=FALSE}
+#census key
+#e34b4f3569e898524b39c32a452511f673924728
+
+library(jsonlite)
+#install.packages("janitor")
+library(janitor)
+
+resURL <- "https://api.census.gov/data/2019/pep/charagegroups?get=NAME,POP&HISP=0&for=state:*"
+
+ljson <- fromJSON(resURL)
+
+#str(ljson )
+#class(ljson )
+head(ljson )
+
+ljson2<-as.data.frame(ljson)
+#using the janitor package
+
+ljson3<-janitor::row_to_names(ljson2,1)
+#str(ljson3 )
+#class(ljson3 )
+head(ljson3 )
+```
+<br>
+
+##Some examples of packages that does the API request
+<br>
+<br>
+```{r bls, echo=FALSE}
+#Buearu of Labor Statistics data
+
+library(blsAPI)
+#library(rjson)
+
+
+layoffs_json <- blsAPI('MLUMS00NN0001003') 
+layoffs_df <- blsAPI('MLUMS00NN0001003', return_data_frame = TRUE)
+
+layoffs_json
+layoffs_df
+
+```
+
+
+
+```{r wb, echo=FALSE}
+#install.packages("WDI")
+library(WDI)
+
+#search for series
+
+WDIsearch(string='gdp', field='name', cache=NULL)
+
+#pull data series
+
+WDI(country=c("US","BR"), indicator="NY.GNS.ICTR.GN.ZS", start=1999, end=2000,
+    extra=TRUE, cache=NULL)
+```
+
+
+```{r nooa, echo=FALSE}
+#install.packages("rnoaa")
+library(rnoaa)
+options(noaakey = "SihjOrlFmhXqetgorCMazZoWKZFbQGsR")
+
+ncdc(datasetid = 'GHCND', stationid = 'GHCND:USW00014895', startdate = '2013-10-01',
+     enddate = '2013-12-01')
+```
+<br>
+<br>
+## twitteR package
+twitteR is a popular service that allows users to broadcast short messages (’tweets’) for others to read. The twitteR package is intended to provide access to the Twitter API within R, allowing users to grab interesting subsets of Twitter data for their analyses.
+
+<br>
+<br>
+
+```{r fred,echo=FALSE}
+#install.packages("fredr")
+#library(dplyr)
+#library(ggplot2)
+library(fredr)
+
+fredr_set_key("f9e9db126ec70b1b677f9b47db6040bf")
+
+popular_data_series<-fredr(
+  series_id = "UNRATE",
+  observation_start = as.Date("1990-01-01"),
+  observation_end = as.Date("2000-01-01"),
+  frequency = "q" # quarterly
+) %>% 
+ggplot(data = ., mapping = aes(x = date, y = value, color = series_id)) +
+  geom_line() +
+  labs(x = "Observation Date", y = "Rate", color = "Series")
+
+popular_data_series
+```
+
+
+
+```{r twitter, echo=FALSE}
+#TWITTER
+#install.packages("twitteR")
+library(twitteR)
+
+#load your information
+
+api_key<-"lPUnjTXlvCkwzf5KZsX3QElht"
+
+api_secret<-"1f9pUXPhpuKsZlVCfgTCgoxOJOxsRZ66or7nlHNcg1NBXh0DUe"
+
+access_token<-"1283546448966160387-nTMFynuN7uaw1DAHifWm24woIA4Lue"
+
+access_token_secret<-"pX61L58nLkdZBz31QEtdtH3ngEcPcKGOzsLASmD5eDqfk"
+
+
+setup_twitter_oauth(api_key,api_secret,access_token,access_token_secret)
+
+#if your oauth function does not work then go to twitter and recreate your api key and token key.
+
+```
+
+<br>
+<br>
+<br>
+
+```{r collectTwit, echo=FALSE}
+obama_tweets<-searchTwitter("barackobama", n=8, lang="en")
+df_obama=twListToDF(obama_tweets)
+head(df_obama)
+
+rstats_tweets<-searchTwitter("rstatstweet", n=8, lang="en")
+df_rstats=twListToDF(rstats_tweets)
+head(df_rstats)
+```
+<br>
+<br>
+##rtweet package:An implementation of calls designed to collect and organize Twitter data via Twitter's  Application Program Interfaces (API)
+<br>
+<br>
+
+```{r rtweet, echo=FALSE}
+
+#install.packages("rtweet")
+library(rtweet)
+
+app_name <- "LetslearnR"
+key <- "lPUnjTXlvCkwzf5KZsX3QElht"
+secret <-"1f9pUXPhpuKsZlVCfgTCgoxOJOxsRZ66or7nlHNcg1NBXh0DUe"
+token<-"1283546448966160387-nTMFynuN7uaw1DAHifWm24woIA4Lue"
+secreta<-"pX61L58nLkdZBz31QEtdtH3ngEcPcKGOzsLASmD5eDqfk" 
+
+## create token
+
+twitter_token <- create_token(
+  app = app_name,
+  consumer_key = key,
+  consumer_secret = secret,
+  access_token = token,
+  access_secret = secreta)
+
+rstats_tweets <- search_tweets(q = "#rstats",
+                               n = 10)
+
+rstats_tweets
+```
+<br>
+<br>
+##Lets Analyze our Tweets collected from Rstats
+<br>
+<br>
+
+```{r clean, echo=FALSE}
+library(tidytext)
+library(ggplot2)
+head(rstats_tweets$text)
+#Data Clean-Up
+
+rstats_tweets$stripped_text <- gsub("http.*","",  rstats_tweets$text)
+rstats_tweets$stripped_text <- gsub("https.*","", rstats_tweets$stripped_text)
+
+rstats_tweet_clean <- rstats_tweets %>%
+  dplyr::select(stripped_text) %>%
+  unnest_tokens(word, stripped_text)
+
+
+```
+
+
+```{r analysis, echo=FALSE}
+
+
+# plot the top 15 words -- notice any issues?
+rstats_tweet_clean %>%
+  count(word, sort = TRUE) %>%
+  top_n(15) %>%
+  mutate(word = reorder(word, n)) %>%
+  ggplot(aes(x = word, y = n)) +
+  geom_col() +
+  xlab(NULL) +
+  coord_flip() +
+  labs(x = "Count",
+       y = "Unique words",
+       title = "Count of unique words found in tweets")
+
+```
+
+
