@@ -1,7 +1,12 @@
+#This is the Plumber package example: https://www.rplumber.io/
+#Barret Schloerke
+#Maintainer, author
+
+
 #Thank you Barret Schloerke from RStudio
 
 #set working directory
-#setwd("F:/API's")
+#setwd("F:/YOUR DIRECTORY")
 
 #install.packages("plumber")
 
