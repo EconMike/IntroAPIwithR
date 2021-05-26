@@ -69,9 +69,13 @@ httr::http_status(res)
 ```
 ```{r democontent, echo=FALSE}
 
+#view it as a list
 httr::content(res)
+
+#view it as a vector
 vw<-rawToChar(res$content)
 head(vw)
+
 
 ```
 
