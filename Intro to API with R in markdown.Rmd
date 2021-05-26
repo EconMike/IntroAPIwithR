@@ -58,9 +58,9 @@ library(jsonlite)
 library(dplyr)
 
 #EIA data
-# ba8c82f8966f3d937e106d98178b11a8
+# <EIA API KEY>
 
-res <- GET('http://api.eia.gov/series/?series_id=ELEC.GEN.ALL-AK-99.A&api_key=ba8c82f8966f3d937e106d98178b11a8&out=json')
+res <- GET('http://api.eia.gov/series/?series_id=ELEC.GEN.ALL-AK-99.A&api_key=<EIA API KEY>&out=json')
 
 #check the status of the API request
 httr::http_status(res)
@@ -87,9 +87,11 @@ data %>% rename(YEAR=X1, VALUE=X2)
 
 ```{r census, echo=FALSE}
 #census key
-#e34b4f3569e898524b39c32a452511f673924728
+#<CENSUS API KEY>
 
 library(jsonlite)
+
+#use the janitor package for data cleaning tasks that can't be done using dplyr
 #install.packages("janitor")
 library(janitor)
 
@@ -149,18 +151,12 @@ WDI(country=c("US","BR"), indicator="NY.GNS.ICTR.GN.ZS", start=1999, end=2000,
 ```{r nooa, echo=FALSE}
 #install.packages("rnoaa")
 library(rnoaa)
-options(noaakey = "SihjOrlFmhXqetgorCMazZoWKZFbQGsR")
+options(noaakey = "<NOAA API KEY>")
 
 ncdc(datasetid = 'GHCND', stationid = 'GHCND:USW00014895', startdate = '2013-10-01',
      enddate = '2013-12-01')
 ```
-<br>
-<br>
-## twitteR package
-twitteR is a popular service that allows users to broadcast short messages (’tweets’) for others to read. The twitteR package is intended to provide access to the Twitter API within R, allowing users to grab interesting subsets of Twitter data for their analyses.
 
-<br>
-<br>
 
 ```{r fred,echo=FALSE}
 #install.packages("fredr")
@@ -168,7 +164,7 @@ twitteR is a popular service that allows users to broadcast short messages (’t
 #library(ggplot2)
 library(fredr)
 
-fredr_set_key("f9e9db126ec70b1b677f9b47db6040bf")
+fredr_set_key("<FRED API KEY>")
 
 popular_data_series<-fredr(
   series_id = "UNRATE",
@@ -183,7 +179,13 @@ ggplot(data = ., mapping = aes(x = date, y = value, color = series_id)) +
 popular_data_series
 ```
 
+<br>
+<br>
+## twitteR package
+twitteR is a popular service that allows users to broadcast short messages (’tweets’) for others to read. The twitteR package is intended to provide access to the Twitter API within R, allowing users to grab interesting subsets of Twitter data for their analyses.
 
+<br>
+<br>
 
 ```{r twitter, echo=FALSE}
 #TWITTER
@@ -192,13 +194,13 @@ library(twitteR)
 
 #load your information
 
-api_key<-"lPUnjTXlvCkwzf5KZsX3QElht"
+api_key<-"<TWITTER API KEY>"
 
-api_secret<-"1f9pUXPhpuKsZlVCfgTCgoxOJOxsRZ66or7nlHNcg1NBXh0DUe"
+api_secret<-"<TWITTER API SECRET KEY>"
 
-access_token<-"1283546448966160387-nTMFynuN7uaw1DAHifWm24woIA4Lue"
+access_token<-"<TWITTER TOKEN KEY>"
 
-access_token_secret<-"pX61L58nLkdZBz31QEtdtH3ngEcPcKGOzsLASmD5eDqfk"
+access_token_secret<-"<TWITTER SECRET TOKEN KEY>"
 
 
 setup_twitter_oauth(api_key,api_secret,access_token,access_token_secret)
@@ -231,11 +233,11 @@ head(df_rstats)
 #install.packages("rtweet")
 library(rtweet)
 
-app_name <- "LetslearnR"
-key <- "lPUnjTXlvCkwzf5KZsX3QElht"
-secret <-"1f9pUXPhpuKsZlVCfgTCgoxOJOxsRZ66or7nlHNcg1NBXh0DUe"
-token<-"1283546448966160387-nTMFynuN7uaw1DAHifWm24woIA4Lue"
-secreta<-"pX61L58nLkdZBz31QEtdtH3ngEcPcKGOzsLASmD5eDqfk" 
+app_name <- "<YOUR APP NAME>"
+key <- "<TWITTER API KEY>"
+secret <-"<TWITTER API SECRET KEY>"
+token<-"<TWITTER TOKEN KEY>"
+secreta<-"<TWITTER SECRET TOKEN KEY>" 
 
 ## create token
 
